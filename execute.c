@@ -1,14 +1,13 @@
 #include "monty.h"
 /**
 * execute - executes the opcode
-* @head: head linked list - stack
-* @line_num: line_counter
+* @stack: head linked list - stack
+* @counter: line_counter
 * @file: poiner to monty file
 * @content: line content
 * Return: no return
 */
-
-int execute(char *content, stack_t **head, unsigned int line_num, FILE *file)
+int execute(char *content, stack_t **stack, unsigned int counter, FILE *file)
 {
 	instruction_t opst[] = {
 				{"push", f_push}, {"pall", f_pall}, {"pint", f_pint},
@@ -17,7 +16,7 @@ int execute(char *content, stack_t **head, unsigned int line_num, FILE *file)
 				{"add", f_add},
 				{"nop", f_nop},
 				{"sub", f_sub},
-				{"div", f_divid},
+				{"div", f_div},
 				{"mul", f_mul},
 				{"mod", f_mod},
 				{"pchar", f_pchar},
@@ -34,20 +33,20 @@ int execute(char *content, stack_t **head, unsigned int line_num, FILE *file)
 	op = strtok(content, " \n\t");
 	if (op && op[0] == '#')
 		return (0);
-	locat.arg = strtok(NULL, " \n\t");
+	bus.arg = strtok(NULL, " \n\t");
 	while (opst[i].opcode && op)
 	{
 		if (strcmp(op, opst[i].opcode) == 0)
-		{	opst[i].f(head, line_num);
+		{	opst[i].f(stack, counter);
 			return (0);
 		}
 		i++;
 	}
 	if (op && opst[i].opcode == NULL)
-	{ fprintf(stderr, "L%d: unknown instruction %s\n", line_num, op);
+	{ fprintf(stderr, "L%d: unknown instruction %s\n", counter, op);
 		fclose(file);
 		free(content);
-		free_stack(*head);
+		free_stack(*stack);
 		exit(EXIT_FAILURE); }
 	return (1);
 }
