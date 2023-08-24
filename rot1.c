@@ -6,7 +6,7 @@
   *Return: no return
  */
 
-void rotl(stack_t **head,  __attribute__((unused)) unsigned int line_num)
+void f_rotl(stack_t **head,  __attribute__((unused)) unsigned int line_num)
 {
 	stack_t *tmp = *head, *new_h;
 
