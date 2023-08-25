@@ -1,38 +1,25 @@
 #include "monty.h"
 /**
- * push - add node to the stack
- * @head: stack head
- * @line_num: line number in input file.
- * Return: no return
-*/
-void push(stack_t **head, unsigned int line_num)
+ * _push - push int to a stack
+ * @stack: linked lists for monty stack
+ * @line_number: number of line opcode occurs on
+ */
+void _push(stack_t **stack, __attribute__ ((unused))unsigned int line_number)
 {
-	int n, v = 0, flag = 0;
+	stack_t *top;
+	(void)line_number;
 
-	if (locat.arg)
+	top = malloc(sizeof(stack_t));
+	if (top == NULL)
 	{
-		if (locat.arg[0] == '-')
-			v++;
-		for (; locat.arg[v] != '\0'; v++)
-		{
-			if (locat.arg[v] > 57 || locat.arg[v] < 48)
-				flag = 1; }
-		if (flag == 1)
-		{ fprintf(stderr, "L%d: usage: push integer\n", line_num);
-			fclose(locat.file);
-			free(locat.content);
-			free_stack(*head);
-			exit(EXIT_FAILURE); }}
-	else
-	{ fprintf(stderr, "L%d: usage: push integer\n", line_num);
-		fclose(locat.file);
-		free(locat.content);
-		free_stack(*head);
-		exit(EXIT_FAILURE); }
-	n = atoi(locat.arg);
-	if (locat.lifi == 0)
-		addnode(head, n);
-	else
-		addqueue(head, n);
-}
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
 
+	top->n = var_global.push_arg;
+	top->next = *stack;
+	top->prev = NULL;
+	if (*stack != NULL)
+		(*stack)->prev = top;
+	*stack = top;
+}
