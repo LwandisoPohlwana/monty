@@ -1,45 +1,24 @@
 #include "monty.h"
-locat_t locat = {NULL, NULL, NULL, 0};
+global_var var_global;
 /**
-* main - monty code interpreter
-* @argc: number of arguments
-* @argv: monty file location
-* Return: 0 on success
-*/
-int main(int argc, char *argv[])
+ * main - driver function for monty program
+ * @ac: int num of arguments
+ * @av: opcode file
+ * Return: 0
+ */
+int main(int ac, char **av)
 {
-	char *content;
-	FILE *file;
-	size_t size = 0;
-	ssize_t read_line = 1;
-	stack_t *stack = NULL;
-	unsigned int line_num = 0;
+	stack_t *stack;
 
-	if (argc != 2)
+	stack = NULL;
+	if (ac != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	file = fopen(argv[1], "r");
-	locat.file = file;
-	if (!file)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-	while (read_line > 0)
-	{
-		content = NULL;
-		read_line = getline(&content, &size, file);
-		locat.content = content;
-		line_num++;
-		if (read_line > 0)
-		{
-			execute(content, &stack, line_num, file);
-		}
-		free(content);
-	}
-	free_stack(stack);
-	fclose(file);
-return (0);
+
+	read_file(av[1], &stack);
+    /* recordar liberar memorias */
+	free_dlistint(stack);
+	return (0);
 }
