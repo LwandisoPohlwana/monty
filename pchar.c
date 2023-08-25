@@ -1,31 +1,33 @@
 #include "monty.h"
 /**
- * pchar - prints the char at the top of the stack,
- * followed with new line
- * @head: stack head
- * @line_num: line number in input file.
- * Return: no return
-*/
-void pchar(stack_t **head, unsigned int line_num)
+ * _pchar - prints the ASCII value of a number
+ * @stack: pointer to the top of the stack
+ * @line_number: the index of the current line
+ *
+ */
+void _pchar(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp_h;
+	int val;
 
-	tmp_h = *head;
-	if (!tmp_h)
+	if (stack == NULL || *stack == NULL)
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_num);
-		fclose(locat.file);
-		free(locat.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
+		free(var_global.buffer);
+		fclose(var_global.file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
-	if (tmp_h->n > 127 || tmp_h->n < 0)
+
+	val = (*stack)->n;
+	if (val > 127 || val < 0)
 	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_num);
-		fclose(locat.file);
-		free(locat.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
+		free(var_global.buffer);
+		fclose(var_global.file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
-	printf("%c\n", tmp_h->n);
+
+	putchar(val);
+	putchar('\n');
 }
