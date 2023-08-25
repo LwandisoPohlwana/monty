@@ -1,41 +1,33 @@
 #include "monty.h"
 /**
- * divid - divides the top two elements of the stack.
- * @head: stack head
- * @line_num: line number in input file.
- * Return: no return
-*/
-
-void divid(stack_t **head, unsigned int line_num)
+ * _div - div top of stack y second top stack
+ * @stack: pointer to lists for monty stack
+ * @line_number: number of line opcode occurs on
+ */
+void _div(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp_h ;
-	int length = 0, temp;
+	int div = 0;
 
-	tmp_h = *head;
-	while (tmp_h)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		tmp_h = tmp_h->next;
-		length++;
-	}
-	if (length < 2)
-	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", line_num);
-		fclose(locat.file);
-		free(locat.content);
-		free_stack(*head);
+		fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
+		free(var_global.buffer);
+		fclose(var_global.file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
-	tmp_h = *head;
-	if (tmp_h->n == 0)
+	else if ((*stack)->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", line_num);
-		fclose(locat.file);
-		free(locat.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: division by zero\n", line_number);
+		free(var_global.buffer);
+		fclose(var_global.file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
-	temp = tmp_h->next->n / tmp_h->n;
-	tmp_h->next->n = temp;
-	*head = tmp_h->next;
-	free(tmp_h);
+	else
+	{
+		div = (*stack)->n;
+		_pop(stack, line_number);
+		(*stack)->n /= div;
+	}
 }
