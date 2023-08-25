@@ -1,5 +1,5 @@
 #include "monty.h"
-locat_t locate = {NULL, NULL, NULL, 0};
+locat_t locat = {NULL, NULL, NULL, 0};
 /**
 * main - monty code interpreter
 * @argc: number of arguments
