@@ -1,27 +1,26 @@
 #include "monty.h"
 /**
-  *rotl- rotates the stack to the top
-  *@head: stack head
-  *@line_num: line in input file
-  *Return: no return
+ * _rotl - mod top of stack y second top stack
+ * @stack: pointer to lists for monty stack
+ * @line_number: number of line opcode occurs on
  */
-
-void f_rotl(stack_t **head,  __attribute__((unused)) unsigned int line_num)
+void _rotl(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp = *head, *new_h;
+	stack_t *runner = *stack;
 
-	if (*head == NULL || (*head)->next == NULL)
-	{
+
+	int aux1 = 0;
+
+	if (!line_number || !stack || !*stack || !(*stack)->next)
 		return;
-	}
-	new_h = (*head)->next;
-	new_h->prev = NULL;
-	while (tmp->next != NULL)
+
+	aux1 = runner->n;
+
+	while (runner->next)
 	{
-		tmp = tmp->next;
+		runner = runner->next;
+		runner->prev->n = runner->n;
 	}
-	tmp->next = *head;
-	(*head)->next = NULL;
-	(*head)->prev = tmp;
-	(*head) = new_h;
+
+	runner->n = aux1;
 }
