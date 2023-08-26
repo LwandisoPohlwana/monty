@@ -1,27 +1,28 @@
 #include "monty.h"
 /**
-  *f_rotr- rotates the stack to the bottom
-  *@head: stack head
-  *@line_num: line in input file
-  *Return: no return
+ * _rotr - mod top of stack y second top stacks
+ * @stack: pointer to lists for monty stack
+ * @line_number: number of line opcode occurs on
  */
-
-void f_rotr(stack_t **head, __attribute__((unused)) unsigned int line_num)
+void _rotr(stack_t **stack, unsigned int line_number)
 {
-	stack_t *cpy;
+	stack_t *runner = *stack;
 
-	cpy = *head;
-	if (*head == NULL || (*head)->next == NULL)
-	{
+	int aux1 = 0;
+
+	if (!line_number || !stack || !*stack || !(*stack)->next)
 		return;
-	}
-	while (cpy->next)
+
+	while (runner->next)
+		runner = runner->next;
+
+	aux1 = runner->n;
+
+	while (runner->prev)
 	{
-		cpy = cpy->next;
+		runner = runner->prev;
+		runner->next->n = runner->n;
 	}
-	cpy->next = *head;
-	cpy->prev->next = NULL;
-	cpy->prev = NULL;
-	(*head)->prev = cpy;
-	(*head) = cpy;
+
+	runner->n = aux1;
 }
